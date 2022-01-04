@@ -15,6 +15,7 @@ describe('Trial tests', () => {
         });
         Navigation.isHeaderLinksAppeared();
         Navigation.isCategoiesMenuAppeared();
+        Navigation.isSideMenuAppeared();
         Navigation.isElemetAppeared(Navigation.pageTitleLocator);
         Navigation.isProductListAppeared();
     })

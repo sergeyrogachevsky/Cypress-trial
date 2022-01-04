@@ -2,8 +2,10 @@ class Navigation {
   static siteTitle = `Demo Web Shop. Apparel & Shoes`;
   static headerLinks = ['Register', 'Log in', 'Shopping cart', 'Wishlist'];   
   static categoiesMenu = ['Books', 'Computers', 'Electronics', 'Apparel & Shoes', 'Digital downloads', 'Jewelry', 'Gift Cards'];
-  
+  static sideMenu = ['Categories', 'Manufacturers', 'Newsletter'];
+
   static categoiesMenuLocator = '.header-menu > ul > li';
+  static sideMenuLocator = '.side-2 > div > .title';
   static pageTitleLocator = '.page-title';
   static productsListLocator = '.product-grid > .item-box';
   static productItemLocator = '.product-item';
@@ -29,7 +31,17 @@ class Navigation {
     });
   };
 
+  static isSideMenuAppeared() {
+    // cy.get(this.sideMenuLocator).eq(this.sideMenu.length);
+    cy.get(this.sideMenuLocator).within( () => {
+      this.sideMenu.forEach( (item) => {
+        cy.contains(item);
+      });
+    });
+  };
+
   static isProductListAppeared() {
+    cy.get(this.productsListLocator).should('be.visible');
     cy.get(this.productItemLocator).should('have.length', 8).each(() => {
       cy.get('.picture');
       cy.get('.details').children('h2.product-title>a').should('not.be.empty');
@@ -37,7 +49,7 @@ class Navigation {
       cy.get('.details').children('.add-info').children().should('have.class', 'prices')
         .children('span').should('not.be.empty');
       cy.get('.details').children('.add-info').children().should('have.class', 'buttons')
-        .children().should('have.value', 'Add to cart').and('be.visible');
+        // .children().should('have.value', 'Add to cart').and('be.visible');
     });
   };
   
