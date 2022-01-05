@@ -8,10 +8,7 @@ describe('Trial tests', () => {
   
     it('Apparel and shoes page loading correctly', () => {
         cy.title().should('eq', ApparelShoesPage.siteTitle);
-        cy.get('.search-box>form').within(() => {
-            cy.get('input[type = "text"]').should('have.value', 'Search store')
-            cy.get('input[type = "submit"]').should('have.value', 'Search');
-        });
+        ApparelShoesPage.isSearchMenuAppeared();
         ApparelShoesPage.isHeaderLinksAppeared();
         ApparelShoesPage.isCategoiesMenuAppeared();
         ApparelShoesPage.isSideMenuAppeared();

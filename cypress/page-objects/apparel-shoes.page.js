@@ -16,34 +16,6 @@ class ApparelShoesPage extends HomePage {
   static sortLowToHigh = 'Price: Low to High';
   static sortHighToLow = 'Price: High to Low';
 
-  static isElemetAppeared(locator) {
-    cy.get(locator).should('be.visible');
-  };
-
-  static isHeaderLinksAppeared() {
-    cy.get('.header-links').within( () => {
-      this.headerLinks.forEach( (item) => {
-        cy.contains(item);
-      });
-    });
-  };
-
-  static isCategoiesMenuAppeared() {
-    cy.get(this.categoiesMenuLocator).eq(this.categoiesMenu.length);
-    cy.get(this.categoiesMenuLocator).within( () => {
-      this.categoiesMenu.forEach( (item) => {
-        cy.contains(item);
-      });
-    });
-  };
-
-  static isSideMenuAppeared() {
-    cy.get(this.sideMenuLocator).within( () => {
-      this.sideMenu.forEach((item) => {
-        cy.contains(item);
-      });
-    });
-  };
 
   static isProductListAppeared(number) {
     cy.get(this.productsListLocator).should('be.visible');
