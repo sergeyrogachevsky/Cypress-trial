@@ -7,7 +7,6 @@ describe('Trial tests', () => {
     })
   
     it('Apparel and shoes page loading correctly', () => {
-        expect(true).to.equal(true);
         cy.title().should('eq', Navigation.siteTitle);
         cy.get('.search-box>form').within(() => {
             cy.get('input[type = "text"]').should('have.value', 'Search store')
@@ -18,5 +17,20 @@ describe('Trial tests', () => {
         Navigation.isSideMenuAppeared();
         Navigation.isElemetAppeared(Navigation.pageTitleLocator);
         Navigation.isProductListAppeared();
-    })
+        Navigation.isProductSelectorsAppeared(Navigation.productViewLocator, Navigation.productSelectors[0]);
+        Navigation.isProductSelectorsAppeared(Navigation.productSortingLocator, Navigation.productSelectors[1]);
+        Navigation.isProductSelectorsAppeared(Navigation.productPageSizeLocator, Navigation.productSelectors[2]);
+    });
+
+    it('Sort products on the "Apparel and shoes" page', () => {
+        Navigation.sortBy(Navigation.sortZToA);
+        Navigation.isSortingCorrect('reverse', Navigation.productTitleLocator);
+        Navigation.sortBy(Navigation.sortAToZ);
+        Navigation.isSortingCorrect('forward', Navigation.productTitleLocator);
+        Navigation.sortBy(Navigation.sortLowToHigh);
+        Navigation.isSortingCorrect('forward', Navigation.productPriceLocator);
+        Navigation.sortBy(Navigation.sortHighToLow);
+        Navigation.isSortingCorrect('reverse', Navigation.productPriceLocator);
+    });
+
 })
