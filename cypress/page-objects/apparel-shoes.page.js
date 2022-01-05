@@ -1,14 +1,7 @@
-class Navigation {
-  static siteTitle = `Demo Web Shop. Apparel & Shoes`;
-  static headerLinks = ['Register', 'Log in', 'Shopping cart', 'Wishlist'];   
-  static categoiesMenu = ['Books', 'Computers', 'Electronics', 'Apparel & Shoes', 'Digital downloads', 'Jewelry', 'Gift Cards'];
-  static sideMenu = ['Categories', 'Manufacturers', 'Newsletter'];
-  static productSelectors = ['View as', 'Sort by', 'Display'];
+import {HomePage} from "./home.page";
 
+class ApparelShoesPage extends HomePage {
 
-  static categoiesMenuLocator = '.header-menu > ul > li';
-  static sideMenuLocator = '.side-2 > div > .title';
-  static pageTitleLocator = '.page-title';
   static productsListLocator = '.product-grid > .item-box';
   static productItemLocator = '.product-item';
   static productViewLocator = '.product-viewmode';
@@ -45,24 +38,23 @@ class Navigation {
   };
 
   static isSideMenuAppeared() {
-    // cy.get(this.sideMenuLocator).eq(this.sideMenu.length);
     cy.get(this.sideMenuLocator).within( () => {
-      this.sideMenu.forEach( (item) => {
+      this.sideMenu.forEach((item) => {
         cy.contains(item);
       });
     });
   };
 
-  static isProductListAppeared() {
+  static isProductListAppeared(number) {
     cy.get(this.productsListLocator).should('be.visible');
-    cy.get(this.productItemLocator).should('have.length', 8).each(() => {
+    cy.get(this.productItemLocator).should('have.length', number).each(() => {
       cy.get('.picture');
       cy.get('.details').children('h2.product-title>a').should('not.be.empty');
       cy.get('.details').children('.product-rating-box').children().should('have.class', 'rating');
       cy.get('.details').children('.add-info').children().should('have.class', 'prices')
         .children('span').should('not.be.empty');
       cy.get('.details').children('.add-info').children().should('have.class', 'buttons')
-        // .children().should('have.value', 'Add to cart').and('be.visible');
+        .children().should('have.value', 'Add to cart').and('be.visible');
     });
   };
 
@@ -84,7 +76,6 @@ class Navigation {
       arr = Cypress._.map($els, 'innerText');
 
       arr.forEach((item, index) => {
-        // cy.log(item.toLocaleLowerCase());
         if (arr[index-1] !== undefined) {
           if (sortOrder === 'forward') {expect(isGreat(index, arr)).to.be.true};
           if (sortOrder === 'reverse') {expect(isGreat(index, arr)).to.be.false};
@@ -92,7 +83,37 @@ class Navigation {
       });
     });
   }
+
+  static selectPageSize(pageSizeValue) {
+    cy.get(this.productPageSizeOptionsLocator).select(pageSizeValue);
+  }
   
+  static numberOfProductsOnPage(number) {
+    cy.get(this.productsListLocator).should('be.visible');
+    cy.get(this.productItemLocator).should('have.length', number);
+  }
+  
+  static isPageButtonsAppearedCorrectly(number) {
+    let arr =[];
+    switch (number) {
+      case '4':
+        cy.get('.pager>ul').children().should('have.length', 4).then(($els) => {
+          arr = Cypress._.map($els, 'innerText');
+          expect(arr).deep.equal(['1', '2', '3', 'Next']);
+        });
+        break
+      case '8':
+        cy.get('.pager').should('be.visible');
+        cy.get('.pager>ul').children().should('have.length', 3).then(($els) => {
+          arr = Cypress._.map($els, 'innerText');
+          expect(arr).deep.equal(['1', '2', 'Next']);
+        });
+        break
+      case '12':
+        cy.get('.pager').should('not.be.visible');
+        break
+    };
+  }
 }
   
-export default Navigation;
+export default ApparelShoesPage;
