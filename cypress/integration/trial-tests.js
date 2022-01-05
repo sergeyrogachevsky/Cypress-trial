@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import Navigation from "../page-objects/navigation.page";
+import ApparelShoesPage from "../page-objects/apparel-shoes.page";
 
 describe('Trial tests', () => {
     beforeEach(() => {
@@ -7,30 +7,41 @@ describe('Trial tests', () => {
     })
   
     it('Apparel and shoes page loading correctly', () => {
-        cy.title().should('eq', Navigation.siteTitle);
+        cy.title().should('eq', ApparelShoesPage.siteTitle);
         cy.get('.search-box>form').within(() => {
             cy.get('input[type = "text"]').should('have.value', 'Search store')
             cy.get('input[type = "submit"]').should('have.value', 'Search');
         });
-        Navigation.isHeaderLinksAppeared();
-        Navigation.isCategoiesMenuAppeared();
-        Navigation.isSideMenuAppeared();
-        Navigation.isElemetAppeared(Navigation.pageTitleLocator);
-        Navigation.isProductListAppeared();
-        Navigation.isProductSelectorsAppeared(Navigation.productViewLocator, Navigation.productSelectors[0]);
-        Navigation.isProductSelectorsAppeared(Navigation.productSortingLocator, Navigation.productSelectors[1]);
-        Navigation.isProductSelectorsAppeared(Navigation.productPageSizeLocator, Navigation.productSelectors[2]);
+        ApparelShoesPage.isHeaderLinksAppeared();
+        ApparelShoesPage.isCategoiesMenuAppeared();
+        ApparelShoesPage.isSideMenuAppeared();
+        ApparelShoesPage.isElemetAppeared(ApparelShoesPage.pageTitleLocator);
+        ApparelShoesPage.isProductListAppeared(ApparelShoesPage.defaultPageSize);
+        ApparelShoesPage.isProductSelectorsAppeared(ApparelShoesPage.productViewLocator, ApparelShoesPage.productSelectors[0]);
+        ApparelShoesPage.isProductSelectorsAppeared(ApparelShoesPage.productSortingLocator, ApparelShoesPage.productSelectors[1]);
+        ApparelShoesPage.isProductSelectorsAppeared(ApparelShoesPage.productPageSizeLocator, ApparelShoesPage.productSelectors[2]);
     });
 
     it('Sort products on the "Apparel and shoes" page', () => {
-        Navigation.sortBy(Navigation.sortZToA);
-        Navigation.isSortingCorrect('reverse', Navigation.productTitleLocator);
-        Navigation.sortBy(Navigation.sortAToZ);
-        Navigation.isSortingCorrect('forward', Navigation.productTitleLocator);
-        Navigation.sortBy(Navigation.sortLowToHigh);
-        Navigation.isSortingCorrect('forward', Navigation.productPriceLocator);
-        Navigation.sortBy(Navigation.sortHighToLow);
-        Navigation.isSortingCorrect('reverse', Navigation.productPriceLocator);
+        ApparelShoesPage.sortBy(ApparelShoesPage.sortZToA);
+        ApparelShoesPage.isSortingCorrect('reverse', ApparelShoesPage.productTitleLocator);
+        ApparelShoesPage.sortBy(ApparelShoesPage.sortAToZ);
+        ApparelShoesPage.isSortingCorrect('forward', ApparelShoesPage.productTitleLocator);
+        ApparelShoesPage.sortBy(ApparelShoesPage.sortLowToHigh);
+        ApparelShoesPage.isSortingCorrect('forward', ApparelShoesPage.productPriceLocator);
+        ApparelShoesPage.sortBy(ApparelShoesPage.sortHighToLow);
+        ApparelShoesPage.isSortingCorrect('reverse', ApparelShoesPage.productPriceLocator);
     });
-
+    
+    it('Paginate products on the "Apparel and shoes" page', () => {
+        ApparelShoesPage.selectPageSize(ApparelShoesPage.defaultPageSize);
+        ApparelShoesPage.numberOfProductsOnPage(ApparelShoesPage.defaultPageSize);
+        ApparelShoesPage.isPageButtonsAppearedCorrectly(ApparelShoesPage.defaultPageSize)
+        ApparelShoesPage.selectPageSize(ApparelShoesPage.minPageSize);
+        ApparelShoesPage.numberOfProductsOnPage(ApparelShoesPage.minPageSize);
+        ApparelShoesPage.isPageButtonsAppearedCorrectly(ApparelShoesPage.minPageSize)
+        ApparelShoesPage.selectPageSize(ApparelShoesPage.maxPageSize);
+        ApparelShoesPage.numberOfProductsOnPage(ApparelShoesPage.maxPageSize);
+        ApparelShoesPage.isPageButtonsAppearedCorrectly(ApparelShoesPage.maxPageSize);
+    });
 })
