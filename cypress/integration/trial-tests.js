@@ -5,7 +5,8 @@ describe('Trial tests', () => {
     beforeEach(() => {
       cy.visit('/');
     })
-  
+    
+    //test fails due to BUG-001 "Button "Add to cart" not appeared for all Products"
     it('Apparel and shoes page loading correctly', () => {
         cy.title().should('eq', ApparelShoesPage.siteTitle);
         ApparelShoesPage.isSearchMenuAppeared();
